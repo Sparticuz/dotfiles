@@ -45,7 +45,7 @@ alias week='date +%V'
 alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
 
 if [ "$(uname)" == "Darwin" ]; then
-    # Do something under Mac OS X platform        
+    # Do something under Mac OS X platform
     # Get OS X Software Updates, and update installed Ruby gems, Homebrew, npm, and their installed packages
     alias update='sudo softwareupdate -i -a; brew update; brew upgrade --all; brew cleanup; npm install npm -g; npm update -g; sudo gem update --system; sudo gem update'
     # IP addresses
@@ -134,14 +134,16 @@ if [ "$(uname)" == "Darwin" ]; then
     # Lock the screen (when going AFK)
     alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
 
+		# Make Grunt print stack traces by default
+		command -v grunt > /dev/null && alias grunt="grunt --stack"
+
+		# Reload the shell (i.e. invoke as a login shell)
+		alias reload="exec $SHELL -l"
 
 elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
     # Do something under Linux platform
     alias update='sudo pacman -Syu'
+		alias uuid='ls -l /dev/disk/by-uuid'
+		alias untar='tar -xzvf'
+		alias harddrives='ls -l /sys/block/sd* | sed "s/.*\(sd.*\) -.*\(ata.*\)\/h.*/\2 => \1/"'
 fi
-
-# Make Grunt print stack traces by default
-command -v grunt > /dev/null && alias grunt="grunt --stack"
-
-# Reload the shell (i.e. invoke as a login shell)
-alias reload="exec $SHELL -l"
