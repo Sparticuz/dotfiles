@@ -88,17 +88,15 @@ Jobs="\j"
 User="\u"
 HostShort="\h"
 
-if [ -f /usr/local/etc/bash_completion.d/git-completion.bash ]; then
-    . /usr/local/etc/bash_completion.d/git-completion.bash
-fi
-
 if [ "$(uname)" == "Darwin" ]; then
 	source /usr/local/etc/bash_completion.d/git-prompt.sh
+	source /usr/local/etc/bash_completion.d/git-completion.bash
 elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
 	source /usr/share/git/completion/git-prompt.sh
+	source /usr/share/git/completion/git-completion.bash
 fi
 
-export PS1=$Green$User$White\@$Red$HostShort\ $IBlack$Time12h$Color_Off'$(git branch &>/dev/null;\
+export PS1=$Green$User$White\@$Red$HostShort\ $Cyan$Time12h$Color_Off'$(git branch &>/dev/null;\
 
 if [ $? -eq 0 ]; then \
   echo "$(echo `git status` | grep "nothing to commit" > /dev/null 2>&1; \
@@ -108,8 +106,8 @@ if [ $? -eq 0 ]; then \
   else \
     # @5 - Changes to working tree
     echo "'$IRed'"$(__git_ps1 " {%s}"); \
-  fi) '$BYellow$PathShort$Color_Off'\$ "; \
+  fi) '$BYellow$PathShort$Color_Off' \$ "; \
 else \
   # @2 - Prompt when not in GIT repo
-  echo " '$Yellow$PathShort$Color_Off'\$ "; \
+  echo " '$Yellow$PathShort$Color_Off' \$ "; \
 fi)'
