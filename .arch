@@ -1,2 +1,10 @@
+#!/bin/bash
+
 #Install aura
+cd /tmp
+git clone https://aur.archlinux.org/aura-bin.git
+cd aura-bin
+makepkg -s
+sudo pacman -U aura-bin-*
+
 #install nano-syntax-highlighting-git from aur
