@@ -1,0 +1,105 @@
+#### .rtorrent.rc ####
+
+# Maximum and minimum number of peers to connect to per torrent.
+#min_peers = 40
+#max_peers = 832
+max_peers = 6500
+
+# Same as above but for seeding completed torrents (-1 = same as downloading)
+min_peers_seed = -1
+max_peers_seed = -1
+
+# Maximum number of simultanious uploads per torrent.
+#max_uploads = 107
+max_uploads = 834
+
+# Global upload and download rate in KiB. "0" for unlimited.
+download_rate = 5938
+#upload_rate = 5000
+upload_rate = 912
+
+# Default directory to save the downloaded torrents.
+directory = /mnt/samba/Torrents/Incomplete
+
+# Default session directory. Make sure you don't run multiple instance
+# of rtorrent using the same session directory. Perhaps using a
+# relative path?
+session = /mnt/samba/Torrents/.session
+
+# Watch a directory for new torrents, restart torrents that have been
+# copied back and stop those that have been deleted.
+schedule = watch_directory,10,10,load_start=/mnt/samba/Torrents/Auto/*.torrent
+schedule = tied_directory,10,10,start_tied=
+schedule = untied_directory,10,10,close_untied=
+
+# Close torrents when diskspace is low. */
+schedule = low_diskspace,5,120,close_low_diskspace=100M
+
+# Move files to /mnt/samba/Torrents/Complete when download completes
+method.set_key = event.download.finished,move_complete,"d.set_directory=/mnt/samba/Torrents/Complete;execute=mv,-u,$d.get_base_path=,/mnt/samba/Torrents/Complete/"
+
+log.execute = /mnt/samba/Torrents/.session/rtorrent.log
+
+# Port range to use for listening.
+port_range = 60000-60000
+
+scgi_port = localhost:5000
+#scgi_local = /run/scgi/scgi.socket
+
+# Check hash for finished torrents. Might be usefull until the bug is
+# fixed that causes lack of diskspace not to be properly reported.
+check_hash = yes
+
+# Set whetever the client should try to connect to UDP trackers.
+use_udp_trackers = no
+
+# Encryption options, set to none (default) or any combination of the following:
+# allow_incoming, try_outgoing, require, require_RC4, enable_retry, prefer_plaintext
+#
+# The example value allows incoming encrypted connections, starts unencrypted
+# outgoing connections but retries with encryption if they fail, preferring
+# plaintext to RC4 encryption after the encrypted handshake
+#
+encryption = allow_incoming,try_outgoing,enable_retry
+
+# Enable DHT support for trackerless torrents or when all trackers are down.
+# May be set to "disable" (completely disable DHT), "off" (do not start DHT),
+# "auto" (start and stop DHT as needed), or "on" (start DHT immediately).
+# The default is "off". For DHT to work, a session directory must be defined.
+#
+dht = auto
+ 
+# UDP port to use for DHT.
+#
+dht_port = 6881
+ 
+# Enable peer exchange (for torrents not marked private)
+#
+peer_exchange = yes
+
+#
+# Do not modify the following parameters unless you know what you're doing.
+#
+
+# Hash read-ahead controls how many MB to request the kernel to read
+# ahead. If the value is too low the disk may not be fully utilized,
+# while if too high the kernel might not be able to keep the read
+# pages in memory thus end up thrashing.
+#hash_read_ahead = 10
+
+# Interval between attempts to check the hash, in milliseconds.
+#hash_interval = 100
+
+# Number of attempts to check the hash while using the mincore status,
+# before forcing. Overworked systems might need lower values to get a
+# decent hash checking rate.
+#hash_max_tries = 10
+
+# Max number of files to keep open simultaniously.
+#max_open_files = 128
+
+# Number of sockets to simultaneously keep open.
+#max_open_sockets = <no default>
+
+#execute = {sh,-c,/usr/bin/php /var/www/torrents/php/initplugins.php kyle &}
+
