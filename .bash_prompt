@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 #  Customize BASH PS1 prompt to show current GIT repository and branch.
 #  by Mike Stewart - http://MediaDoneRight.com
 
@@ -117,3 +119,4 @@ else \
   # @2 - Prompt when not in GIT repo
   echo " '$Yellow$PathShort$Color_Off' \$ "; \
 fi)'
+
