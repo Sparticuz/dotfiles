@@ -92,8 +92,14 @@ if [ "$(uname)" == "Darwin" ]; then
 	source /usr/local/etc/bash_completion.d/git-prompt.sh
 	source /usr/local/etc/bash_completion.d/git-completion.bash
 elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
-	source /usr/share/git/completion/git-prompt.sh
-	source /usr/share/git/completion/git-completion.bash
+	if [ -f /usr/share/git/completion/git-prompt.sh ]; then
+		# Arch
+		source /usr/share/git/completion/git-prompt.sh
+		source /usr/share/git/completion/git-completion.bash
+	elif [ -f /etc/bash_completion.d/git-prompt ]; then
+		# Ubuntu
+		source /etc/bash_completion.d/git-prompt
+	fi	
 fi
 
 export PS1=$Green$User$White\@$Red$HostShort\ $Cyan$Time12h$Color_Off'$(git branch &>/dev/null;\
