@@ -101,7 +101,7 @@ elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
 	elif [ -f /etc/bash_completion.d/git-prompt ]; then
 		# Ubuntu
 		source /etc/bash_completion.d/git-prompt
-	fi	
+	fi
 fi
 
 export PS1=$Green$User$White\@$Red$HostShort\ $Cyan$Time12h$Color_Off'$(git branch &>/dev/null;\
@@ -119,4 +119,3 @@ else \
   # @2 - Prompt when not in GIT repo
   echo " '$Yellow$PathShort$Color_Off' \$ "; \
 fi)'
-

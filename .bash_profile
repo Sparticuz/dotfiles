@@ -28,9 +28,6 @@ export HISTCONTROL=ignoreboth
 export HISTSIZE=1024
 export HISTFILESIZE=HISTSIZE
 
-# Append to the Bash history file, rather than overwriting it
-shopt -s histappend;
-
 if [ "$(uname)" == "Darwin" ]; then
     # Add tab completion for many Bash commands
     if which brew > /dev/null && [ -f "$(brew --prefix)/share/bash-completion/bash_completion" ]; then
@@ -46,8 +43,11 @@ if [ "$(uname)" == "Darwin" ]; then
     #fi;
 
     # Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
-    [ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' 
-'\n')" scp sftp ssh;
+    [ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh;
+
+    # Append to the Bash history file, rather than overwriting it
+    shopt -s histappend;
+
 
     # Add tab completion for `defaults read|write NSGlobalDomain`
     # You could just use `-g` instead, but I like being explicit

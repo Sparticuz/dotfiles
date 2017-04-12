@@ -3,6 +3,11 @@
   # View abbreviated SHA, description, and history graph of the latest 20 commits
   l = log --pretty=oneline -n 20 --graph --abbrev-commit
 
+  # No need for a GUI - a nice, colorful, graphical representation
+  # https://git-scm.com/docs/git-log
+  # via https://medium.com/@payload.dd/thanks-for-the-git-st-i-will-use-this-4da5839a21a4
+  glog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+
   # View the current working tree status using the short format
   s = status -s
 
@@ -63,12 +68,16 @@
   # List contributors with number of commits
   contributors = shortlog --summary --numbered
 
-  # Merge GitHub pull request on top of the `master` branch
+  # Merge GitHub pull request on top of the current branch or,
+  # if a branch name is specified, on top of the specified branch
   mpr = "!f() { \
+    declare currentBranch=\"$(git symbolic-ref --short HEAD)\"; \
+    declare branch=\"${2:-$currentBranch}\"; \
     if [ $(printf \"%s\" \"$1\" | grep '^[0-9]\\+$' > /dev/null; printf $?) -eq 0 ]; then \
       git fetch origin refs/pull/$1/head:pr/$1 && \
-      git rebase master pr/$1 && \
-      git checkout master && \
+      git checkout -B $branch && \
+      git rebase $branch pr/$1 && \
+      git checkout -B $branch && \
       git merge pr/$1 && \
       git branch -D pr/$1 && \
       git commit --amend -m \"$(git log -1 --pretty=%B)\n\nCloses #$1.\"; \
@@ -91,7 +100,7 @@
   # [default] space-before-tab: looks for spaces before tabs at the beginning of a line
   whitespace = space-before-tab,-indent-with-non-tab,trailing-space
 
-  # Make `git rebase` safer on OS X
+  # Make `git rebase` safer on macOS
   # More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
   trustctime = false
 
@@ -126,12 +135,21 @@
   changed = green
   untracked = cyan
 
+[commit]
+
+  # https://help.github.com/articles/signing-commits-using-gpg/
+  gpgsign = true
+
 [diff]
 
   # Detect copies as well as renames
   renames = copies
+  # Enable an experimental heuristic that shifts the hunk boundary in an
+  # attempt to make the resulting patch easier to read.
+  indentHeuristic = true
 
 [diff "bin"]
+
   # Use `hexdump` to diff binary files
   textconv = hexdump -v -C
 
