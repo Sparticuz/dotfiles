@@ -33,7 +33,7 @@ alias grep='grep --color=auto'
 alias l="ls -lF ${colorflag}"
 
 # List all files colorized in long format, including dot files
-alias ll="ls -laFh --group-directories-first ${colorflag}"
+alias ll="ls -laFhb --group-directories-first ${colorflag}"
 
 # List only directories
 alias lsd="ls -lF ${colorflag} | grep --color=never '^d'"
@@ -73,7 +73,7 @@ alias update='sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup
 alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
 
 # IP addresses
-alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
+alias ipaddr="dig +short myip.opendns.com @resolver1.opendns.com"
 alias localip="ipconfig getifaddr en0"
 alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
 
@@ -177,7 +177,7 @@ alias path='echo -e ${PATH//:/\\n}'
 
 elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
     # Do something under Linux platform
-    alias update='sudo pacman -Syu'
+    alias update='sudo pacman -Syu && sudo aura -Ayu'
     alias uuid='ls -l /dev/disk/by-uuid'
     alias untar='tar -xzvf'
     alias harddrives='ls -l /sys/block/sd* | sed "s/.*\(sd.*\) -.*\(ata.*\)\/h.*/\2 => \1/"'
