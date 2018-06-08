@@ -2,4 +2,4 @@
 include /usr/share/nano-syntax-highlighting/*.nanorc
 
 #Show line numbers
-set const
+set constantshow
