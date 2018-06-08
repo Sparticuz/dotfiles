@@ -48,7 +48,6 @@ if [ "$(uname)" == "Darwin" ]; then
     # Append to the Bash history file, rather than overwriting it
     shopt -s histappend;
 
-
     # Add tab completion for `defaults read|write NSGlobalDomain`
     # You could just use `-g` instead, but I like being explicit
     complete -W "NSGlobalDomain" defaults;
