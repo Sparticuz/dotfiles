@@ -51,3 +51,5 @@ if [ "$(uname)" == "Darwin" ]; then
     # Add `killall` tab completion for common apps
     complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes SystemUIServer Terminal Twitter" killall;
 fi;
+
+_byobu_sources=1 . /usr/bin/byobu-launch 2>/dev/null || true
