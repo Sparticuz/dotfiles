@@ -199,3 +199,7 @@
 [url "git://gist.github.com/"]
 
   insteadOf = "gist:"
+
+[user]
+  name = "Sparticuz"
+  email = "kyle@kmcnally.net"
