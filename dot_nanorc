@@ -1,0 +1,6 @@
+#Include syntax highlighting
+include /usr/share/nano-syntax-highlighting/*.nanorc
+
+#Show line numbers
+set linenumbers
+set constantshow
