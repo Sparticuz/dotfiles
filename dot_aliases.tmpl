@@ -163,7 +163,8 @@ alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date
   alias uuid='ls -l /dev/disk/by-uuid'
   alias untar='tar -xzvf'
   alias harddrives='ls -l /sys/block/sd* | sed "s/.*\(sd.*\) -.*\(ata.*\)\/h.*/\2 => \1/"'
-  alias lazydocker='docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock -v /var/docker/lazydocker:/.config/jesseduffield/lazydocker lazyteam/lazydocker'
+  # Check if lazydocker exists, if not, add a docker alias
+  [ ! -f /usr/bin/lazydocker ] && alias lazydocker='sudo docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock -v ~/.config/lazydocker:/.config/jesseduffield/lazydocker lazyteam/lazydocker:latest'
   alias path='echo $PATH | tr -s ":" "\n"'
   {{ if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
     # WSL
