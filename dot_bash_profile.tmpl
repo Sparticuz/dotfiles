@@ -68,6 +68,8 @@ shopt -s histappend;
     # Linux
     _byobu_sources=1 . /usr/bin/byobu-launch 2>/dev/null || true
   {{ end }}
+  # Start homebrew if it exists
+  [ -f /home/linuxbrew/.linuxbrew/bin/brew ] && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
   # SSH auto start
   if [ ! -S ~/.ssh/ssh_auth_sock ]; then
     eval `ssh-agent`
