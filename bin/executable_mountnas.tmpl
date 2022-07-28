@@ -1,0 +1,33 @@
+if ! command -v sshfs &> /dev/null
+then
+  echo "sshfs could not be found, please install"
+  exit
+fi
+
+is_mounted() {
+  mount | awk -v DIR="$1" '{if ($3 == DIR) { exit 0}} ENDFILE{exit -1}'
+}
+
+if [ ! -d "/mnt/raid" ]
+then
+  mkdir -p "/mnt/raid"
+fi
+
+if is_mounted "/mnt/raid"; then
+  echo "/mnt/raid is already mounted"
+else
+  # MOUNT
+  sshfs -o default_permissions,port={{ (bitwardenFields "item" "bb33de3f-216f-4267-9ab0-ad3300f774cb").Port.value }} {{ (bitwarden "item" "bb33de3f-216f-4267-9ab0-ad3300f774cb").login.username }}@{{ (index (bitwarden "item" "bb33de3f-216f-4267-9ab0-ad3300f774cb").login.uris 0).uri }}:/mnt/raid /mnt/raid
+fi
+
+if [ ! -d "/mnt/storage" ]
+then
+  mkdir -p "/mnt/storage"
+fi
+
+if is_mounted "/mnt/storage"; then
+  echo "/mnt/storage is already mounted"
+else
+  # MOUNT
+  sshfs -o default_permissions,port={{ (bitwardenFields "item" "bb33de3f-216f-4267-9ab0-ad3300f774cb").Port.value }} {{ (bitwarden "item" "bb33de3f-216f-4267-9ab0-ad3300f774cb").login.username }}@{{ (index (bitwarden "item" "bb33de3f-216f-4267-9ab0-ad3300f774cb").login.uris 0).uri }}:/mnt/storage /mnt/storage
+fi
