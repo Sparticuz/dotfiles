@@ -9,9 +9,7 @@
     makepkg -s
     sudo pacman -U aura-bin-*
   {{ else }}
-    # TODO install nano-syntax-highlighting from Github on Ubuntu and others
-    # to /usr/share/nano-syntax-highlighting
     sudo apt install -y keychain
+    sudo git clone https://github.com/scopatz/nanorc.git /usr/share/nano-syntax-highlighting
   {{ end }}
 {{ end }}
-
