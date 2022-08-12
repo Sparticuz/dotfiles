@@ -1,1 +1,9 @@
 .bash_history
+# Ignore private files on non-dev boxes
+{{- if (not (or (eq .chezmoi.hostname "bently") (eq .chezmoi.hostname "DMC03")))}}
+.aws
+.aws/**
+.ssh
+.ssh/**
+bin/mountnas
+{{- end }}
