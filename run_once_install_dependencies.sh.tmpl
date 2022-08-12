@@ -1,13 +1,13 @@
 #!/bin/bash
 {{ if eq .chezmoi.os "linux" -}}
   {{ if (eq .chezmoi.osRelease.id "arch") }}
-    sudo pacman -Sy git keychain nano-syntax-highlighting
+    sudo pacman -Sy --needed git keychain nano-syntax-highlighting
     # Install aura
     cd /tmp
     git clone https://aur.archlinux.org/aura-bin.git
     cd aura-bin
     makepkg -s
-    sudo pacman -U aura-bin-*
+    sudo pacman -U --needed aura-bin-*
   {{ else }}
     sudo apt install -y keychain
     sudo git clone https://github.com/scopatz/nanorc.git /usr/share/nano-syntax-highlighting
