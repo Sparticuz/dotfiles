@@ -172,7 +172,7 @@ alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date
   {{ end }}
 
   # Debian Linux
-  {{- if or((eq .chezmoi.osRelease.id "debian") (eq .chezmoi.osRelease.id "ubuntu"))}}
+  {{- if (or (eq .chezmoi.osRelease.id "debian") (eq .chezmoi.osRelease.id "ubuntu") ) }}
     alias update='sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade && sudo apt-get autoclean'
   {{ end }}
 
