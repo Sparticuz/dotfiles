@@ -71,6 +71,6 @@ shopt -s histappend;
   # Start homebrew if it exists
   [ -f /home/linuxbrew/.linuxbrew/bin/brew ] && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
   # SSH auto start
-  /usr/bin/keychain --nogui $HOME/.ssh/id_github
-  source $HOME/.keychain/$HOSTNAME-sh
+  [ -f /usr/bin/keychain ] && /usr/bin/keychain --nogui $HOME/.ssh/id_github
+  [ -f $HOME/.keychain/$HOSTNAME-sh ] && source $HOME/.keychain/$HOSTNAME-sh
 {{ end -}}
