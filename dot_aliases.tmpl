@@ -158,16 +158,26 @@ alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date
   # Print each PATH entry on a separate line
   alias path='echo -e ${PATH//:/\\n}'
 {{ else if eq .chezmoi.os "linux" -}}
-  # Do something under Linux platform
-  alias update='sudo pacman -Syu && sudo aura -Ayu'
-  alias uuid='ls -l /dev/disk/by-uuid'
+  # Linux platform
   alias untar='tar -xzvf'
   alias harddrives='ls -l /sys/block/sd* | sed "s/.*\(sd.*\) -.*\(ata.*\)\/h.*/\2 => \1/"'
   # Check if lazydocker exists, if not, add a docker alias
   [ ! -f /usr/bin/lazydocker ] && alias lazydocker='sudo docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock -v ~/.config/lazydocker:/.config/jesseduffield/lazydocker lazyteam/lazydocker:latest'
   alias path='echo $PATH | tr -s ":" "\n"'
+
+  # Arch Linux
+  {{- if eq .chezmoi.osRelease.id "arch" }}
+    alias update='sudo pacman -Syu && sudo aura -Ayu'
+    alias uuid='ls -l /dev/disk/by-uuid'
+  {{ end }}
+
+  # Debian Linux
+  {{- if or((eq .chezmoi.osRelease.id "debian") (eq .chezmoi.osRelease.id "ubuntu"))}}
+    alias update='sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade && sudo apt-get autoclean'
+  {{ end }}
+
+  # WSL
   {{ if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
     # WSL
-    alias update='sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade && sudo apt-get autoclean'
   {{ end }}
 {{ end }}

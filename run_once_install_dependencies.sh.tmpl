@@ -1,6 +1,6 @@
 #!/bin/bash
 {{ if eq .chezmoi.os "linux" -}}
-  {{ if (.chezmoi.kernel.osrelease | lower | contains "arch") }}
+  {{ if (eq .chezmoi.osRelease.id "arch") }}
     sudo pacman -Sy git keychain nano-syntax-highlighting
     # Install aura
     cd /tmp
