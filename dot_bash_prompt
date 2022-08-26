@@ -1,11 +1,5 @@
 #!/usr/bin/env bash
 
-if [[ $COLORTERM = gnome-* && $TERM = xterm ]] && infocmp gnome-256color >/dev/null 2>&1; then
-  export TERM='gnome-256color';
-elif infocmp xterm-256color >/dev/null 2>&1; then
-  export TERM='xterm-256color';
-fi;
-
 prompt_git() {
   local s='';
   local branchName='';
@@ -101,7 +95,6 @@ else
 fi;
 
 # Sparticuz's PS1 Prompt Below!
-# PS1="\[\033]0;\W\007\]"; # working directory base name
 PS1="\[${userStyle}\]\u"; # username
 PS1+="\[${white}\]@";
 PS1+="\[${hostStyle}\]\h"; # host
