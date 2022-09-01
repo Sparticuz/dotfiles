@@ -17,7 +17,7 @@ if is_mounted "/mnt/raid"; then
   echo "/mnt/raid is already mounted"
 else
   # MOUNT
-  sshfs -o allow_other,default_permissions,port={{ (bitwardenFields "item" "bb33de3f-216f-4267-9ab0-ad3300f774cb").Port.value }} {{ (bitwarden "item" "bb33de3f-216f-4267-9ab0-ad3300f774cb").login.username }}@{{ (index (bitwarden "item" "bb33de3f-216f-4267-9ab0-ad3300f774cb").login.uris 0).uri }}:/mnt/raid /mnt/raid
+  sshfs -o idmap=user,compression=yes,follow_symlinks,allow_other,default_permissions,port={{ (bitwardenFields "item" "bb33de3f-216f-4267-9ab0-ad3300f774cb").Port.value }} {{ (bitwarden "item" "bb33de3f-216f-4267-9ab0-ad3300f774cb").login.username }}@{{ (index (bitwarden "item" "bb33de3f-216f-4267-9ab0-ad3300f774cb").login.uris 0).uri }}:/mnt/raid /mnt/raid
 fi
 
 if [ ! -d "/mnt/storage" ]
@@ -29,5 +29,5 @@ if is_mounted "/mnt/storage"; then
   echo "/mnt/storage is already mounted"
 else
   # MOUNT
-  sshfs -o allow_other,default_permissions,port={{ (bitwardenFields "item" "bb33de3f-216f-4267-9ab0-ad3300f774cb").Port.value }} {{ (bitwarden "item" "bb33de3f-216f-4267-9ab0-ad3300f774cb").login.username }}@{{ (index (bitwarden "item" "bb33de3f-216f-4267-9ab0-ad3300f774cb").login.uris 0).uri }}:/mnt/storage /mnt/storage
+  sshfs -o idmap=user,compression=yes,follow_symlinks,allow_other,default_permissions,port={{ (bitwardenFields "item" "bb33de3f-216f-4267-9ab0-ad3300f774cb").Port.value }} {{ (bitwarden "item" "bb33de3f-216f-4267-9ab0-ad3300f774cb").login.username }}@{{ (index (bitwarden "item" "bb33de3f-216f-4267-9ab0-ad3300f774cb").login.uris 0).uri }}:/mnt/storage /mnt/storage
 fi
