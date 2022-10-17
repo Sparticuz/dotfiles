@@ -14,5 +14,8 @@
   {{ else }}
     sudo apt install -y keychain
     [[ ! -d /usr/share/nano-syntax-highlighting ]] && sudo git clone https://github.com/scopatz/nanorc.git /usr/share/nano-syntax-highlighting
+    # Install Node 16
+    curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+    sudo apt-get install -y nodejs
   {{ end }}
 {{ end }}
