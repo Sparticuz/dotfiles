@@ -132,3 +132,15 @@ function getcertnames() {
 function cp_p () {
   rsync -WavP --human-readable --progress $1 $2
 }
+
+# Read an .env file
+function readenv() {
+  if [ "$-" = "${-%a*}" ]; then
+    # allexport is not set
+    set -a
+    source $1
+    set +a
+  else
+    source $1
+  fi
+}
