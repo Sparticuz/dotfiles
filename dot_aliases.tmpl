@@ -59,18 +59,17 @@ alias harddrives='ls -l /sys/block/sd* | sed "s/.*\(sd.*\) -.*\(ata.*\)\/h.*/\2 
 
 alias path='echo $PATH | tr -s ":" "\n"'
 
-# Arch Linux
 {{- if eq .chezmoi.osRelease.id "arch" }}
+  # Arch Linux
   alias update='sudo pacman -Syu && sudo aura -Ayu'
   alias uuid='ls -l /dev/disk/by-uuid'
 {{ end }}
 
-# Debian Linux
 {{- if (or (eq .chezmoi.osRelease.id "debian") (eq .chezmoi.osRelease.id "ubuntu") ) }}
+  # Debian Linux
   alias update='sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade && sudo apt-get autoclean && sudo apt-get autoremove'
 {{ end }}
 
-# WSL
 {{ if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
   # WSL
 {{ end }}
