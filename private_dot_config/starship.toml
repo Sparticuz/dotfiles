@@ -1,24 +1,72 @@
 # Get editor completions based on the config schema
 "$schema" = 'https://starship.rs/config-schema.json'
 
+format = """
+$status\
+[](#9A348E)\
+$os\
+$username$sudo\
+[@](bg:#9A348E)\
+$hostname\
+[](bg:#DA627D fg:#9A348E)\
+$directory\
+$git_branch\
+$git_status\
+[](fg:#DA627D bg:#86BBD8)\
+$nodejs\
+[](fg:#86BBD8 bg:#06969A)\
+$docker_context\
+[](fg:#06969A bg:#33658A)\
+$time\
+[ ](fg:#33658A)\
+$cmd_duration\
+"""
+
 [aws]
 disabled = true
 
+[directory]
+style = "bg:#DA627D"
+format = "[ $path ]($style)"
+
+[git_branch]
+style = "bg:#DA627D"
+format = '[ $symbol $branch ]($style)'
+
+[git_status]
+style = "bg:#DA627D"
+format = '[$all_status$ahead_behind ]($style)'
+
 [hostname]
+format = '[$ssh_symbol$hostname]($style)'
+style = "bg:#9A348E"
 ssh_only = false
 
 [nodejs]
+style = "bg:#86BBD8"
 disabled = true
+format = '[ $symbol ($version) ]($style)'
 
 [os]
 disabled = false
+style = "bg:#9A348E"
 
 [status]
 disabled = false
 
 [sudo]
 disabled = false
+style = "bg:#9A348E"
+format = '[$symbol]($style)'
+
+[time]
+disabled = false
+time_format = "%r" # Hour:Minute Format
+style = "bg:#33658A"
+format = '[ ♥ $time ]($style)'
 
 [username]
-format = '[$user]($style) on '
+format = '[$user]($style)'
 show_always = true
+style_user = "bg:#9A348E"
+style_root = "bg:#9A348E"
