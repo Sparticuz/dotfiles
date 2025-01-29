@@ -30,6 +30,14 @@ module.exports = {
    * @param name The name of the dependency.
    * @param parsedVersion A parsed Semver object of the upgraded version.
    * (See: https://git.coolaj86.com/coolaj86/semver-utils.js#semverutils-parse-semverstring)
+   * https://github.com/privatenumber/tsx/issues/433
    */
-  target: (name) => (name === "@types/node" ? "minor" : "latest"),
+  target: (name) => (
+    name === "@types/node" ||
+    name === "serverless" ||
+    name === "@sparticuz/eslint-config" ||
+    name === "@types/eslint" ||
+    name === "@eslint/js" ||
+    name === "eslint"
+      ? "minor" : "latest"),
 };
