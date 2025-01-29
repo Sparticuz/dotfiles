@@ -1,6 +1,6 @@
 #!/bin/bash
 {{ if (eq .chezmoi.osRelease.id "arch") }}
-  sudo pacman -Sy --needed git keychain nano-syntax-highlighting base-devel byobu
+  sudo pacman -Sy --needed git keychain nano-syntax-highlighting base-devel byobu starship
   # Install aura, if needed
   if [ ! -f /usr/bin/aura ]
   then
@@ -14,4 +14,5 @@
 {{ else }}
   sudo apt install -y keychain byobu git
   [[ ! -d /usr/share/nano-syntax-highlighting ]] && sudo git clone https://github.com/scopatz/nanorc.git /usr/share/nano-syntax-highlighting
+  [[ ! -x "$(starship)" ]] && curl -sS https://starship.rs/install.sh | sh
 {{ end }}
