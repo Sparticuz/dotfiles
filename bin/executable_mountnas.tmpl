@@ -1,33 +1,52 @@
-if ! command -v sshfs &> /dev/null
-then
-  echo "sshfs could not be found, please install"
-  exit
+#!/bin/bash
+set -euo pipefail
+
+# Check if sshfs is installed
+if ! command -v sshfs &> /dev/null; then
+  echo "Error: sshfs is not installed. Please install it first."
+  exit 1
 fi
 
+# Function to check if a directory is mounted
 is_mounted() {
-  mount | awk -v DIR="$1" '{if ($3 == DIR) { exit 0}} ENDFILE{exit -1}'
+  mount | grep -q "on $1 type"
 }
 
-if [ ! -d "/mnt/raid" ]
-then
-  mkdir -p "/mnt/raid"
-fi
+# Securely create a directory if it doesn't exist
+create_dir_if_not_exists() {
+  local dir="$1"
+  if [ ! -d "$dir" ]; then
+    mkdir -p "$dir"
+    echo "Created directory: $dir"
+  fi
+}
 
-if is_mounted "/mnt/raid"; then
-  echo "/mnt/raid is already mounted"
-else
-  # MOUNT
-  sshfs -o IdentityFile=~/.ssh/id_haven,idmap=user,compression=yes,follow_symlinks,allow_other,default_permissions,port={{ (bitwardenFields "item" "bb33de3f-216f-4267-9ab0-ad3300f774cb").Port.value }} {{ (bitwarden "item" "bb33de3f-216f-4267-9ab0-ad3300f774cb").login.username }}@{{ (index (bitwarden "item" "bb33de3f-216f-4267-9ab0-ad3300f774cb").login.uris 0).uri }}:/mnt/raid /mnt/raid
-fi
+# Mount a directory using sshfs
+mount_sshfs() {
+  local remote_path="$1"
+  local local_path="$2"
+  local port="$3"
+  local username="$4"
+  local host="$5"
 
-if [ ! -d "/mnt/storage" ]
-then
-  mkdir -p "/mnt/storage"
-fi
+  if is_mounted "$local_path"; then
+    echo "$local_path is already mounted"
+  else
+    sshfs -o IdentityFile=~/.ssh/id_haven,idmap=user,compression=yes,follow_symlinks,allow_other,default_permissions,port="$port" \
+      "$username@$host:$remote_path" "$local_path"
+    echo "Mounted $remote_path to $local_path"
+  fi
+}
 
-if is_mounted "/mnt/storage"; then
-  echo "/mnt/storage is already mounted"
-else
-  # MOUNT
-  sshfs -o IdentityFile=~/.ssh/id_haven,idmap=user,compression=yes,follow_symlinks,allow_other,default_permissions,port={{ (bitwardenFields "item" "bb33de3f-216f-4267-9ab0-ad3300f774cb").Port.value }} {{ (bitwarden "item" "bb33de3f-216f-4267-9ab0-ad3300f774cb").login.username }}@{{ (index (bitwarden "item" "bb33de3f-216f-4267-9ab0-ad3300f774cb").login.uris 0).uri }}:/mnt/storage /mnt/storage
-fi
+# Load sensitive data from environment variables or a secure source
+PORT="{{ (bitwardenFields "item" "bb33de3f-216f-4267-9ab0-ad3300f774cb").Port.value }}"
+USERNAME="{{ (bitwarden "item" "bb33de3f-216f-4267-9ab0-ad3300f774cb").login.username }}"
+HOST="{{ (index (bitwarden "item" "bb33de3f-216f-4267-9ab0-ad3300f774cb").login.uris 0).uri }}"
+
+# Mount /mnt/raid
+create_dir_if_not_exists "/mnt/raid"
+mount_sshfs "/mnt/raid" "/mnt/raid" "$PORT" "$USERNAME" "$HOST"
+
+# Mount /mnt/storage
+create_dir_if_not_exists "/mnt/storage"
+mount_sshfs "/mnt/storage" "/mnt/storage" "$PORT" "$USERNAME" "$HOST"
