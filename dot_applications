@@ -9,3 +9,10 @@ _byobu_sources=1 . /usr/bin/byobu-launch 2>/dev/null || true
 # SSH auto start
 [ -f /usr/bin/keychain ] && /usr/bin/keychain --nogui $HOME/.ssh/id_github
 [ -f $HOME/.keychain/$HOSTNAME-sh ] && source $HOME/.keychain/$HOSTNAME-sh
+
+# Start fnm if it exists
+FNM_PATH="$HOME/.local/share/fnm"
+if [ -d "$FNM_PATH" ]; then
+  export PATH="$FNM_PATH:$PATH"
+  eval "`fnm env`"
+fi
