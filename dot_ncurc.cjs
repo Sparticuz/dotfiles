@@ -33,11 +33,6 @@ module.exports = {
    * https://github.com/privatenumber/tsx/issues/433
    */
   target: (name) => (
-    name === "@types/node" ||
-    name === "serverless" ||
-    name === "@sparticuz/eslint-config" ||
-    name === "@types/eslint" ||
-    name === "@eslint/js" ||
-    name === "eslint"
+    name === "@types/node"
       ? "minor" : "latest"),
 };
