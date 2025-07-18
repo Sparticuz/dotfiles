@@ -55,7 +55,7 @@ style = "bg:#9A348E"
 disabled = false
 
 [sudo]
-disabled = false
+disabled = true
 style = "bg:#9A348E"
 format = '[$symbol]($style)'
 
